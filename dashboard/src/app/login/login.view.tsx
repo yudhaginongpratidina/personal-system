@@ -1,17 +1,16 @@
-import Input from "@/components/Input"
-import AlertMessage from "@/components/AlertMessage";
+import AuthLayout from "@/components/layouts/AuthLayout";
+import Form from "@/components/ui/Form";
+import Input from "@/components/ui/Input"
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { loginFormSchema, LoginFormSchema } from "./login.validator";
-
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import axios from "axios";
 
-export default function Login() {
+import { toast } from 'react-toastify';
+import toastConfig from "@/helpers/toast-config";
 
-    const [isError, setIsError] = useState<boolean>(false)
-    const [message, setMessage] = useState<string>("")
+export default function Login() {
 
     const { register, handleSubmit, formState: { errors } } = useForm<LoginFormSchema>({
         resolver: zodResolver(loginFormSchema)
@@ -19,31 +18,27 @@ export default function Login() {
 
     const onSubmit = async (values: LoginFormSchema) => {
         try {
-            const response = await axios.post("http://localhost:3000/api/auth/login", {
+            const response = await axios.post(`${import.meta.env.VITE_API_BACKEND_EXPRESS_URL}/auth/login`, {
                 email: values.email,
                 password: values.password
             })
 
-            const { message } : any = await response.data
-
-            setIsError(false)
-            setMessage(message)
+            const { message }: any = await response.data
+            toast.success(message, toastConfig as any)
         } catch (error: any) {
-            setIsError(true)
-            setMessage(error.response.data.message)
+            toast.error(error.response.data.message, toastConfig as any)
         }
     }
 
     return (
-        <div className="w-full min-h-screen flex justify-center items-center bg-gray-50">
-            <div className="w-full max-w-md p-4 border shadow-sm drop-shadow-sm bg-white">
-                <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-4">
-                    {message && <AlertMessage type={isError ? "error" : "success"} message={message} />}
+        <AuthLayout>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <Form>
                     <Input id="email" label="E-Mail" type="email" placeholder="user@gmail.com" {...register("email")} error={errors.email?.message} />
                     <Input id="password" label="Password" type="password" placeholder="*****" {...register("password")} error={errors.password?.message} />
-                    <button id="btn-login" className="w-fit py-2.5 px-6 bg-black hover:bg-gray-800 text-white rounded-md">Login</button>
-                </form>
-            </div>
-        </div>
+                    <button className="w-fit py-2.5 px-6 bg-black hover:bg-gray-800 text-white rounded-md">Login</button>
+                </Form>
+            </form>
+        </AuthLayout>
     )
 }
