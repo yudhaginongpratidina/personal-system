@@ -9,6 +9,7 @@ import { Provider } from 'react-redux'
 
 import Login from '@/app/login/login.view'
 import Register from '@/app/register/register.view'
+import Dashboard from './app/dashboard/dashboard.view'
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
@@ -18,6 +19,7 @@ createRoot(document.getElementById('root')!).render(
                     <Routes>
                         <Route path="/" element={<Login />} />
                         <Route path="/register" element={<Register />} />
+                        <Route path="/dashboard" element={<Dashboard />} />
                     </Routes>
                 </BrowserRouter>
             </PersistGate>
