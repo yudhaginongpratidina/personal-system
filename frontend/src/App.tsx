@@ -14,6 +14,8 @@ import Register from '@/app/auth/register/register.view'
 import Dashboard from '@/app/admin/dashboard/dashboard.view'
 import Users from '@/app/admin/users/users.view'
 import UsersCreate from '@/app/admin/users/users.create.view'
+import Projects from './app/admin/projects/projects.view'
+import ProjectCreate from '@/app/admin/projects/projects.create.view'
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
@@ -28,8 +30,12 @@ createRoot(document.getElementById('root')!).render(
                         <Route path="/register" element={<Register />} />
 
                         <Route path="/dashboard" element={<Dashboard />} />
+                        
                         <Route path="/users" element={<Users />} />
                         <Route path="/users/create" element={<UsersCreate />} />
+
+                        <Route path="/projects" element={<Projects />} />
+                        <Route path="/projects/create" element={<ProjectCreate />} />
 
                     </Routes>
                 </BrowserRouter>

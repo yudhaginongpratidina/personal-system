@@ -4,6 +4,7 @@ import { FaFire } from "react-icons/fa6";
 import { ImMenu } from "react-icons/im";
 import { MdSpaceDashboard } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
+import { GoProject } from "react-icons/go";
 
 export default function SidebarAdmin({ onClick }: { onClick: () => void }) {
     return (
@@ -31,6 +32,11 @@ export default function SidebarAdmin({ onClick }: { onClick: () => void }) {
                     name="users management" 
                     to="/users"
                     icon={<FaUsers className="w-5 h-5" />}
+                />
+                <ButtonLink 
+                    name="project management" 
+                    to="/projects"
+                    icon={<GoProject className="w-5 h-5" />}
                 />
             </div>
 

@@ -17,6 +17,7 @@ import logger from "./config/logger.js";
 import HalloController from "./src/hallo/hallo.controller.js";
 import AuthController from "./src/auth/auth.controller.js";
 import UserController from "./src/users/users.controller.js";
+import ProjectController from "./src/projects/projects.controller.js";
 
 
 // ========================================================================================================
@@ -39,6 +40,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/", HalloController);
 app.use("/api/auth", AuthController);
 app.use("/api/users", UserController);
+app.use("/api/projects", ProjectController);
 
 
 // ========================================================================================================

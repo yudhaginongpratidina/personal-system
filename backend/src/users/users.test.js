@@ -6,7 +6,7 @@ import bcrypt from "bcrypt"
 dotenv.config();
 const baseUrl = `${process.env.APP_URL}:${process.env.APP_PORT}/api`;
 
-class AuthTest {
+class UserTest {
 
 
     static async create(){
@@ -42,8 +42,8 @@ class AuthTest {
 }
 
 
-beforeAll(async () => { await AuthTest.create(); });
-afterAll(async () => { await AuthTest.delete(); });
+beforeAll(async () => { await UserTest.create(); });
+afterAll(async () => { await UserTest.delete(); });
 
 describe("Test validation for create user", () => {
     it("if full name is empty should throw error", async () => {
