@@ -1,13 +1,27 @@
 import express from "express";
 const router = express.Router();
 
-import { GET_ALL_USER, DELETE_USER_BY_ID, DELETE_MANY_USER } from "./users.service.js";
+import { GET_ALL_USER, CREATE_USER, DELETE_USER_BY_ID, DELETE_MANY_USER } from "./users.service.js";
+import { createUserSchema } from "./users.validator.js";
 
 router.get("/", async (req, res, next) => {
     try {
         const response = await GET_ALL_USER()
         return res.status(200).json({
             message: "users fetched successfully",
+            data: response
+        })
+    } catch (error) {
+        next(error)
+    }
+})
+
+router.post("/", async (req, res, next) => {
+    try {
+        const data = await createUserSchema.parse(req.body)
+        const response = await CREATE_USER(data)
+        return res.status(201).json({
+            message: "user created successfully",
             data: response
         })
     } catch (error) {

@@ -45,6 +45,53 @@ class AuthTest {
 beforeAll(async () => { await AuthTest.create(); });
 afterAll(async () => { await AuthTest.delete(); });
 
+describe("Test validation for create user", () => {
+    it("if full name is empty should throw error", async () => {
+        const response = await request(baseUrl).post("/users").send({})
+        expect(response.body[0].path[0]).toBe("full_name")
+        expect(response.body[0].message).toBe("Required")
+    })
+
+    it("if email is empty should throw error", async () => {
+        const response = await request(baseUrl).post("/users").send({ full_name: "user test 1" })
+        expect(response.body[0].path[0]).toBe("email")
+        expect(response.body[0].message).toBe("Required")
+    })
+
+    it("if email is invalid should throw error", async () => {
+        const response = await request(baseUrl).post("/users").send({ full_name: "user test 1", email: "invalid_email" })
+        expect(response.body[0].path[0]).toBe("email")
+        expect(response.body[0].message).toBe("E-Mail is invalid")
+    })
+
+    it("if password is empty should throw error", async () => {
+        const response = await request(baseUrl).post("/users").send({ full_name: "user test 1", email: "user_test@gmail.com" })
+        expect(response.body[0].path[0]).toBe("password")
+        expect(response.body[0].message).toBe("Required")
+    })
+
+    it("if confirm password is empty should throw error", async () => {
+        const response = await request(baseUrl).post("/users").send({ full_name: "user test 1", email: "user_test@gmail.com", password: "user_test@gmail.com" })
+        expect(response.body[0].path[0]).toBe("confirm_password")
+        expect(response.body[0].message).toBe("Required")
+    })
+})
+
+describe("Test create user", () => {
+
+    it("should throw error if email is already registered", async () => {
+        const response = await request(baseUrl).post("/users").send({ full_name: "guest", email: "guest@gmail.com", password: "guest@gmail.com", confirm_password: "guest@gmail.com" })
+        expect(response.status).toBe(400)
+        expect(response.body.message).toBe("Email already registered")
+    })
+
+    it("should create user", async () => {
+        const response = await request(baseUrl).post("/users").send({ full_name: "user test 1", email: "user_test@gmail.com", password: "user_test@gmail.com", confirm_password: "user_test@gmail.com" })
+        expect(response.status).toBe(201)
+        expect(response.body.message).toBe("user created successfully")
+    })
+})
+
 describe("Test get all users", () => {
     it("should get all users", async () => {
         const response = await request(baseUrl).get("/users").send({})
