@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 
 import { FaFire } from "react-icons/fa6";
 import { ImMenu } from "react-icons/im";
+import { MdSpaceDashboard } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
 
 export default function SidebarAdmin({ onClick }: { onClick: () => void }) {
@@ -21,6 +22,11 @@ export default function SidebarAdmin({ onClick }: { onClick: () => void }) {
 
             {/* LINKS */}
             <div className="w-full p-4 flex flex-col gap-2.5">
+                <ButtonLink 
+                    name="dashboard" 
+                    to="/dashboard"
+                    icon={<MdSpaceDashboard className="w-5 h-5" />}
+                />
                 <ButtonLink 
                     name="users management" 
                     to="/users"
